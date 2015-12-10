@@ -12,8 +12,8 @@ Navigation = React.createClass({
                         <div className="container-fluid">
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav">
-                                    <li><a href="/">Объекты</a></li>
-                                    <li><a href="/">Геопортал</a></li>
+                                    <li><a href="/map">Объекты</a></li>
+                                    <li><a href="/map/portal">Геопортал</a></li>
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><a href="javascript://" onClick={this.logOut}>Выйти</a></li>

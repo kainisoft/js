@@ -37,8 +37,8 @@ CreateObjectForm = React.createClass({
         Meteor.call('addObject', this.props.objectItem, ( error ) => {
             if ( error ) {
                 var errorMsg = []; // TODO make user friendly feedback
-                Object.keys(error).forEach(function( item ) {
-                    errorMsg.push(error[item]);
+                Object.keys(error.reason).forEach(function( item ) {
+                    errorMsg.push(error.reason[item]);
                 });
                 alert(errorMsg.join('\n'));
             } else {
@@ -53,18 +53,18 @@ CreateObjectForm = React.createClass({
     },
 
     render(){
-        var options = this.props.objectItem.getValidObjectTypes().reduce(( carry, item ) => {
-            carry.push(<option key={item} value={item}>{item}</option>);
-
-            return carry;
-        }, [<option key={null}>Выберите</option>]);
-
         return (
             <form className="form-horizontal" onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <label htmlFor="object-type" className="col-sm-2 control-label">Тип</label>
                     <div className="col-sm-10">
-                        <select value={this.props.objectItem.get('type')} name="type" onChange={this.handleChange} id="object-type" className="form-control col-xs-4">{options}</select>
+                        <select value={this.props.objectItem.get('type')} name="type" onChange={this.handleChange} id="object-type" className="form-control col-xs-4">
+                            {this.props.objectItem.getValidObjectTypes().reduce(( carry, item ) => {
+                                carry.push(<option key={item} value={item}>{item}</option>);
+
+                                return carry;
+                            }, [<option key={null}>Выберите</option>])}
+                        </select>
                     </div>
                 </div>
                 <div className="form-group">
@@ -82,10 +82,10 @@ CreateObjectForm = React.createClass({
                 <div className="form-group">
                     <label htmlFor="object-location" className="col-sm-2 control-label">Местоположение</label>
                     <div>
-                        <div className="col-xs-2">
+                        <div className="col-xs-3">
                             <input value={this.props.objectItem.get('latitude')} name="latitude" onChange={this.handleChange} id="object-location-latitude" type="text" className="form-control" placeholder="Широта" />
                         </div>
-                        <div className="col-xs-2">
+                        <div className="col-xs-3">
                             <input value={this.props.objectItem.get('longitude')} name="longitude" onChange={this.handleChange} id="object-location-longitude" type="text" className="form-control" placeholder="Долгота" />
                         </div>
                     </div>

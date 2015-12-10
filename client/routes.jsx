@@ -1,5 +1,5 @@
 var authRoutes = FlowRouter.group({
-    prefix: '/',
+    prefix: '/map',
     triggersEnter: [( context, redirect ) => {
         if ( !Meteor.userId() ) {
             redirect('auth')
@@ -15,9 +15,9 @@ authRoutes.route('/', {
 });
 
 authRoutes.route('/portal', {
-    'portal',
+    name: 'portal',
     action() {
-
+        ReactLayout.render(MainLayout, {content: <Portal />});
     }
 });
 
@@ -27,3 +27,9 @@ FlowRouter.route('/auth', {
         ReactLayout.render(MainLayout, {content: <AuthCtrl />});
     }
 });
+
+FlowRouter.notFound = {
+    action() {
+        FlowRouter.go('home')
+    }
+};
