@@ -1,9 +1,12 @@
+/**
+ * Authorization controller
+ */
 AuthCtrl = React.createClass({
     render() {
         return (
-            <div className="container">
+            <div className="page-header">
                 <div className="row">
-                    <Login />
+                        <Login /> {/* Authorization form */}
                 </div>
             </div>
         );

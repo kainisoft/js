@@ -1,3 +1,6 @@
+/**
+ * Object page controller
+ */
 ObjectCtrl = React.createClass({
     render(){
         return (

@@ -1,9 +1,10 @@
-Meteor.subscribe('objects');
-
+/**
+ * Object list component
+ */
 ObjectList = React.createClass({
     mixins: [ReactMeteorData],
 
-    getInitialState(){
+    getInitialState() {
         return {
             objectItem: new MapObject()
         }
@@ -15,19 +16,20 @@ ObjectList = React.createClass({
         }
     },
 
-    onObjectItemEditClick( objectItem ){
+    /**
+     * Object item edit button click handler
+     * @param objectItem
+     */
+    onObjectItemEditClick( objectItem ) {
         this.setState({objectItem});
         $('#createObject').modal('show');
     },
 
+    /**
+     * Add new object button click handler
+     */
     onAddNewObjectClick () {
         this.onObjectItemEditClick(new MapObject());
-    },
-
-    renderObjects(){
-        return this.data.objects.map(( o ) => {
-            return <ObjectItem key={o._id} objectItem={o} click={this.onObjectItemEditClick}/>;
-        }, this);
     },
 
     render() {
@@ -35,11 +37,14 @@ ObjectList = React.createClass({
             <div>
                 <div id="createObject" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div className="modal-dialog modal-lg" role="document">
+
+                        {/* New object component */}
                         <CreateObject objectItem={this.state.objectItem}/>
+
                     </div>
                 </div>
                 <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" onClick={this.onAddNewObjectClick}>
-                    Add
+                    Добавить
                 </button>
                 <table className="table table-hover">
                     <thead>
@@ -52,7 +57,9 @@ ObjectList = React.createClass({
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderObjects()}
+                        {this.data.objects.map(( o ) => {
+                            return <ObjectItem key={o._id} objectItem={o} click={this.onObjectItemEditClick}/>;
+                        }, this)}
                     </tbody>
                 </table>
             </div>
@@ -60,17 +67,20 @@ ObjectList = React.createClass({
     }
 });
 
+/**
+ * Object item handler
+ */
 ObjectItem = React.createClass({
     propTypes: {
         objectItem: React.PropTypes.object.isRequired,
         click: React.PropTypes.func.isRequired
     },
 
-    onClick(){
+    onClick() {
         this.props.click(this.props.objectItem);
     },
 
-    render(){
+    render() {
         return (
             <tr>
                 <th>{this.props.objectItem.type}</th>

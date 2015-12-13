@@ -1,9 +1,13 @@
+/**
+ * Navigation component
+ */
 Navigation = React.createClass({
-    logOut(){
+    logOut() {
         Meteor.logout(function() {
             FlowRouter.go('/auth');
         });
     },
+
     render() {
         if ( Meteor.user() ) {
             return (

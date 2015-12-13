@@ -1,3 +1,6 @@
+/**
+ * Create or edit object component
+ */
 CreateObject = React.createClass({
     propTypes: {
         objectItem: React.PropTypes.object
@@ -7,9 +10,6 @@ CreateObject = React.createClass({
         return (
             <div className="col-lg-8">
                 <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h2 className="panel-title">Новый Объект</h2>
-                    </div>
                     <div className="panel-body">
                         <CreateObjectForm objectItem={this.props.objectItem} />
                     </div>
@@ -19,8 +19,11 @@ CreateObject = React.createClass({
     }
 });
 
+/**
+ * Create or edit object form
+ */
 CreateObjectForm = React.createClass({
-    getInitialState(){
+    getInitialState() {
         return {
             type: null,
             name: null,
@@ -31,6 +34,10 @@ CreateObjectForm = React.createClass({
         };
     },
 
+    /**
+     * Form submit handler
+     * @param event
+     */
     onSubmit( event ) {
         event.preventDefault();
 
@@ -52,12 +59,14 @@ CreateObjectForm = React.createClass({
         this.setState({[event.target.name]: event.target.value});
     },
 
-    render(){
+    render() {
         return (
             <form className="form-horizontal" onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <label htmlFor="object-type" className="col-sm-2 control-label">Тип</label>
                     <div className="col-sm-10">
+
+                        {/* Render object types */}
                         <select value={this.props.objectItem.get('type')} name="type" onChange={this.handleChange} id="object-type" className="form-control col-xs-4">
                             {this.props.objectItem.getValidObjectTypes().reduce(( carry, item ) => {
                                 carry.push(<option key={item} value={item}>{item}</option>);
@@ -65,6 +74,7 @@ CreateObjectForm = React.createClass({
                                 return carry;
                             }, [<option key={null}>Выберите</option>])}
                         </select>
+
                     </div>
                 </div>
                 <div className="form-group">

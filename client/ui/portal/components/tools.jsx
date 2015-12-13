@@ -1,16 +1,14 @@
+/**
+ * Filter tools component
+ */
 Tools = React.createClass({
-    getInitialState() {
-        return {
-            objectTypes: [
-                'Учреждение',
-                'Транспорт',
-                'Природа',
-                'Территория',
-                'Инфраструктура',
-                'Человек',
-                'Неопределённый' // TODO take from database
-            ]
-        };
+    gpropTypes: {
+        filter: React.PropTypes.object.isRequired,
+        onChangeFilter: React.PropTypes.func.isRequired
+    },
+
+    onChangeTypeFilter( event ) {
+        this.props.onChangeFilter(event.target.name, event.target.checked);
     },
 
     render() {
@@ -24,13 +22,26 @@ Tools = React.createClass({
                         <div className="form-group">
                             <label htmlFor="object-type" className="col-sm-2 control-label">Тип</label>
                             <div className="col-sm-10">
-                                <select name="type" defaultValue={this.state.objectTypes} multiple={true} onChange={null} id="object-type" size="7" className="form-control col-xs-4">
-                                    {this.state.objectTypes.reduce(( carry, item ) => {
-                                        carry.push(<option key={item} value={item}>{item}</option>);
+                                <fieldset>
+
+                                    {/* Render possible filters */}
+                                    {Object.keys(this.props.filter).reduce(( carry, item ) => {
+                                        var imgUrl = '/asset/img/' + item + '.png';
+                                        var imgStyle = {
+                                            width: 36,
+                                            height: 36
+                                        };
+
+                                        carry.push(<div key={item}>
+                                            <input type="checkbox" checked={this.props.filter[item]} name={item} value={item} onChange={this.onChangeTypeFilter}  />
+                                            <img src={imgUrl} style={imgStyle} />
+                                            {item}
+                                        </div>);
 
                                         return carry;
                                     }, [])}
-                                </select>
+
+                                </fieldset>
                             </div>
                         </div>
                     </form>

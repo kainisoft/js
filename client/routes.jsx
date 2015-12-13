@@ -1,3 +1,4 @@
+// Routes only for authorized users
 var authRoutes = FlowRouter.group({
     prefix: '/map',
     triggersEnter: [( context, redirect ) => {
@@ -7,6 +8,7 @@ var authRoutes = FlowRouter.group({
     }]
 });
 
+// Objects page (home page)
 authRoutes.route('/', {
     name: 'home',
     action() {
@@ -14,6 +16,7 @@ authRoutes.route('/', {
     }
 });
 
+// View objects on map
 authRoutes.route('/portal', {
     name: 'portal',
     action() {
@@ -21,6 +24,7 @@ authRoutes.route('/portal', {
     }
 });
 
+// Authorization page
 FlowRouter.route('/auth', {
     name: 'auth',
     action() {
@@ -28,6 +32,7 @@ FlowRouter.route('/auth', {
     }
 });
 
+// If page not found redirect to authorization page
 FlowRouter.notFound = {
     action() {
         FlowRouter.go('home')

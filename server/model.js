@@ -1,15 +1,24 @@
-Meteor.publish('objects', function() {
+Meteor.publish('objects', () => {
     return Objects.find({});
 });
 
+Meteor.publish('objectsByFilter', ( filter ) => {
+    return Objects.find({
+        type: {$in: filter}
+    });
+});
+
 Objects.allow({
-    insert: function( userId, doc ) {
+    insert: ( userId, doc ) => {
+        return !!userId;
+    },
+    update: ( userId, doc ) => {
         return !!userId;
     }
 });
 
 Meteor.methods({
-    addObject( object ){
+    addObject( object ) {
         if ( object.validate() ) {
             object.save();
 

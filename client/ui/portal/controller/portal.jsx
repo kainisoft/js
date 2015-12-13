@@ -1,21 +1,47 @@
+Meteor.subscribe('objects');
 Portal = React.createClass({
     mixins: [ReactMeteorData],
 
-    getMeteorData() {
+    getInitialState() {
         return {
-            objects: Objects.find({}).fetch()
+            filter: {
+                'Учреждение': true,
+                'Транспорт': true,
+                'Природа': true,
+                'Территория': true,
+                'Инфраструктура': true,
+                'Человек': true,
+                'Неопределённый': true // TODO take from database
+            }
+        };
+    },
+
+    getMeteorData() {
+        var filter = Object.keys(this.state.filter).filter(( item ) => {
+            return this.state.filter[item] === true;
+        });
+
+        return {
+            objects: Objects.find({
+                type: {$in: filter}
+            }).fetch()
         }
     },
 
+    onChangeFilter( filterName, filterValue ) {
+        this.setState(React.addons.update(this.state, {
+            filter: { [filterName]: {$set: filterValue} }
+        }));
+    },
+
     render() {
-        var f = {};
         return (
             <div className="row">
                 <div className="col-sm-4">
-                    <Tools />
+                    <Tools filter={this.state.filter} onChangeFilter={this.onChangeFilter} />
                 </div>
                 <div className="col-sm-4">
-                    <PoratlMap objects={this.data.objects} options={f} />
+                    <PoratlMap objects={this.data.objects} />
                 </div>
             </div>
         );
