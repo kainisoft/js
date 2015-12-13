@@ -28,7 +28,7 @@ authRoutes.route('/portal', {
 FlowRouter.route('/auth', {
     name: 'auth',
     action() {
-        ReactLayout.render(MainLayout, {content: <AuthCtrl />});
+        ReactLayout.render(AuthCtrl);
     }
 });
 
